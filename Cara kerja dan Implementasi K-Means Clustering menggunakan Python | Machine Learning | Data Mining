@@ -1,0 +1,75 @@
+# Read dataset
+
+import pandas as pd 
+import matplotlib.pyplot as plt
+
+dfmhs = pd.read_csv('nilaimahasiswa.csv',sep=';',engine='python')
+
+dfmhs.describe()
+
+dfmhs.info()
+
+plt.scatter(dfmhs['uts'],dfmhs['uas'])
+plt.xlabel("uts")
+plt.ylabel("uas")
+plt.title("Grafik Nilai Mahasiswa")
+
+# Membuat Data Training
+
+x_train = dfmhs(['uts','uas']).values
+
+# Feature Scaling
+
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler ()
+x_train*scaler.fit_transform(X=)
+
+x_train
+
+# Clusterin
+
+from sklearn.cluster import KMeans
+KMean = KMeans(n_clusters=3)
+KMean
+
+y_cluster = KMeans.fit_predict(x_train)
+
+y_cluster
+
+dfmhs['cluster'] = y_cluster
+
+dfmhs
+
+KMean.cluster_centers_
+
+# Visualisasi Data Hasil Clustering
+
+plt.figure(figsize=(10,5))
+plt.scatter(x_train[:,0],x_train[:,1],c=KMean.labels_)
+plt.scatter(KMeans.cluster_centers_[0,0],KMeans.cluster_centers_[0,1],cmap='rainbow',marker='*',s=150,label='centroid 0')
+plt.scatter(KMeans.cluster_centers_[0,0],KMeans.cluster_centers_[1,0],cmap='rainbow',marker='*',s=150,label='centroid 1')
+plt.scatter(KMeans.cluster_centers_[0,0],KMeans.cluster_centers_[2,0],cmap='rainbow',marker='*',s=150,label='centroid 2')
+plt.xlabel("UTS")
+plt.ylabel("UAS")
+plt.legend()
+
+# Mencari K (jumlah cluster) terbaik
+
+inerties = []
+k_range = range(1,10)
+for k in k_range:
+    km= KMeans(n_clusters=k).fit(x_train)
+    intertias.append(km.inertia_)
+    
+    inertias
+    
+    plt.xlabel("k")
+    plt.ylabel("sum of error")
+    plt.plot(k_range,inertias)\
+    plt.grid()
+
+# Membuat Dataset Baru dengan label cluster
+
+dfms{'cluster'} = dfmhs{'cluster'}.replace([0,1],['kurang','baik'])
+
+dfmhs
